@@ -4,10 +4,12 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+black = "*"
+requests-mock = "*"
+python-decouple = "*"
 
 [packages]
 requests = "*"
-black = "*"
 
 [requires]
 python_version = "3.8"
