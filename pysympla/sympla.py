@@ -10,3 +10,10 @@ class Sympla(object):
 
     def _get_url(self, path):
         return f"{self._URL}{self.__token}"
+
+    def _request(self, method, path, json, **kwargs):
+        request = requests.request(
+            method=method, url=self._get_url(path), json=json, **kwargs,
+        )
+        json = request.json()
+        return json
