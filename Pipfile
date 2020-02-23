@@ -7,9 +7,11 @@ verify_ssl = true
 black = "*"
 requests-mock = "*"
 python-decouple = "*"
+pre-commit = "*"
 
 [packages]
 requests = "*"
+pre-commit = "*"
 
 [requires]
 python_version = "3.8"
