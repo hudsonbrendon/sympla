@@ -10,5 +10,5 @@ class Sympla(object):
 
     def _get_url(self, path, id=None):
         if id:
-            return f"{self._URL}{path}/{id}"
+            return f"{self._URL}{path}{id}"
         return f"{self._URL}{path}"
