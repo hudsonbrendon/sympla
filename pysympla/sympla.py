@@ -7,3 +7,6 @@ class Sympla(object):
 
     def __init__(self, token):
         self.__token = token
+
+    def _get_url(self, path):
+        return f"{self._URL}{self.__token}"
