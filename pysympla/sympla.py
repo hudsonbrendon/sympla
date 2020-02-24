@@ -12,3 +12,14 @@ class Sympla(object):
         if id:
             return f"{self._URL}{path}{id}"
         return f"{self._URL}{path}"
+
+    @property
+    def token(self):
+        return self.__token
+
+    def _request(self, method, path, json, id=None, **kwargs):
+        request = requests.request(
+            method=method, url=self._get_url(path, id), json=json, **kwargs
+        )
+        json = request.json()
+        return json
