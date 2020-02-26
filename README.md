@@ -46,7 +46,7 @@ Para gerar a chave de acesso é preciso logar na plataforma Sympla, acessar o me
 
 Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#section/Autenticacao
 
-# Listar Eventos
+# Listar eventos
 
 Esta API fornece acesso às informações de eventos criados na plataforma Sympla, exclusivamente aqueles vinculados ao usuário proprietário do token.
 
