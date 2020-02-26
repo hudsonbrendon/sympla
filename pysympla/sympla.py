@@ -10,7 +10,7 @@ class Sympla(object):
 
     def _get_url(self, path, id=None):
         if id:
-            return f"{self._URL}{path}{id}"
+            return f"{self._URL}{path}/{id}"
         return f"{self._URL}{path}"
 
     @property
@@ -58,5 +58,5 @@ class Sympla(object):
             "fields": fields,
         }
 
-        request = self._request(method="get", path=path, id=id, params=params)
+        request = self._request(method="get", path=path, params=params, id=id)
         return request
