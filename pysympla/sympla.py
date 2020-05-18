@@ -45,7 +45,7 @@ class Sympla(object):
         Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#tag/Eventos
         """
 
-        path = f"events"
+        path = "events"
         if event_id is not None:
             path = f"events/{event_id}"
 
