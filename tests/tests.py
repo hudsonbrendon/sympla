@@ -14,7 +14,7 @@ class TestSympla(unittest.TestCase):
 
     def test_get_url_with_id(self):
         self.assertEqual(
-            self.sympla._get_url("test", 12345), f"{self.sympla._URL}test/12345"
+            self.sympla._get_url("test/12345"), f"{self.sympla._URL}test/12345"
         )
 
     @requests_mock.Mocker()
@@ -71,7 +71,62 @@ class TestSympla(unittest.TestCase):
         }
         requests_mock.get(url=url, json=json)
 
-        event = self.sympla.events(id=133207)
+        event = self.sympla.events(event_id=133207)
+
+    @requests_mock.Mocker()
+    def test_populated_affiliates_event(self, request_mock):
+        url = "https://api.sympla.com.br/public/v3/events/133207/affiliates"
+        json = {
+            "data": [
+                {
+                    "name": "Programa de afiliados",
+                    "comission_type": "PERCENTUAL",
+                    "comission_value": 20.5,
+                    "has_limit": True,
+                    "limit": 100,
+                    "affiliates": [
+                        {
+                            "email": "email@email.com.br",
+                            "discount_code": "AFILIADO1",
+                            "sold_tickets": 50,
+                            "sales": 500
+                        }
+                    ]
+                }
+            ]
+        }
+
+        request_mock.get(url=url, json=json)
+
+        events = self.sympla.affiliates(133207)
+        self.assertEqual(events, json)
+
+    @requests_mock.Mocker()
+    def test_empty_affiliates_event(self, request_mock):
+        url = "https://api.sympla.com.br/public/v3/events/133207/affiliates"
+        json = {
+            "error": True,
+            "message": "Event dont have affiliate program."
+        }
+
+        request_mock.get(url=url, json=json)
+
+        events = self.sympla.affiliates(133207)
+        self.assertEqual(events, json)
+
+    @requests_mock.Mocker()
+    def test_unauthorized_affiliates_event(self, request_mock):
+        url = "https://api.sympla.com.br/public/v3/events/555555/affiliates"
+        json = {
+            "error": True,
+            "code": 10,
+            "message": "Token is not authorized access this event."
+        }
+
+        request_mock.get(url=url, json=json)
+
+        events = self.sympla.affiliates(555555)
+        self.assertEqual(events, json)
 
 
 if __name__ == "__main__":
