@@ -8,19 +8,17 @@ class Sympla(object):
     def __init__(self, token):
         self.__token = token
 
-    def _get_url(self, path, id=None):
-        if id:
-            return f"{self._URL}{path}/{id}"
+    def _get_url(self, path: str) -> str:
         return f"{self._URL}{path}"
 
     @property
-    def headers(self):
+    def headers(self) -> dict:
         return {"S_TOKEN": self.__token}
 
-    def _request(self, method, path, params, id=None, **kwargs):
+    def _request(self, method: str, path: str, params: dict = None, **kwargs):
         request = requests.request(
             method=method,
-            url=self._get_url(path, id),
+            url=self._get_url(path),
             headers=self.headers,
             params=params,
             **kwargs,
@@ -30,14 +28,14 @@ class Sympla(object):
 
     def events(
         self,
-        id=None,
-        _from=None,
-        published=True,
-        page_size=100,
-        page=1,
-        field_sort=None,
-        sort="ASC",
-        fields=None,
+        event_id: int = None,
+        _from: str = None,
+        published: bool = True,
+        page_size: int = 100,
+        page: int = 1,
+        field_sort: str = None,
+        sort: str = "ASC",
+        fields: str = None,
     ):
         """
         Esta API fornece acesso às informações de eventos criados na plataforma Sympla, exclusivamente aqueles vinculados ao usuário proprietário do token.
@@ -46,7 +44,10 @@ class Sympla(object):
 
         Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#tag/Eventos
         """
+
         path = "events"
+        if event_id is not None:
+            path = f"events/{event_id}"
 
         params = {
             "from": _from,
@@ -58,5 +59,19 @@ class Sympla(object):
             "fields": fields,
         }
 
-        request = self._request(method="get", path=path, params=params, id=id)
+        request = self._request(method="get", path=path, params=params)
+        return request
+
+    def affiliates(self, event_id: int):
+        """
+        Esta API fornece acesso às informações relativas ao programa de afiliados e seus respectivos afiliados.
+
+        Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#tag/Afiliados
+
+        :param event_id: id do evento
+        """
+
+        path: str = f"events/{event_id}/affiliates"
+        request = self._request(method="get", path=path)
+
         return request
