@@ -16,7 +16,7 @@ A plataforma online de eventos líder no Brasil. Venda de ingressos, promoção 
 - [ ]  Listar participantes por pedido
 - [ ]  Listar participantes por evento
 - [ ]  Listar participante por número de ingresso
-- [ ]  Listar afiliados por evento
+- [x]  Listar afiliados por evento
 
 # Instalação
 
@@ -77,7 +77,23 @@ from decouple import config
 
 sympla = Sympla(token=config("TOKEN"))
 
-event = sympla.events(id=config("EVENT_ID"))
+event = sympla.events(event_id=config("EVENT_ID"))
+```
+
+# Listar afiliados por evento
+
+Retorna os afiliados do evento correspondente ao identificador informado.
+
+Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#tag/Afiliados
+
+```python
+from pysympla import Sympla
+from decouple import config
+
+
+sympla = Sympla(token=config("TOKEN"))
+
+event = sympla.affiliates(event_id=config("EVENT_ID"))
 ```
 
 # Contribua
