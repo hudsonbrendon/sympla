@@ -11,9 +11,9 @@ A plataforma online de eventos líder no Brasil. Venda de ingressos, promoção 
 
 - [x]  Listar eventos
 - [x]  Listar evento por identificador
-- [ ]  Listar pedidos por evento
-- [ ]  Listar pedidos por identificador
-- [ ]  Listar participantes por pedido
+- [x]  Listar pedidos por evento
+- [x]  Listar pedidos por identificador
+- [x]  Listar participantes por pedido
 - [ ]  Listar participantes por evento
 - [ ]  Listar participante por número de ingresso
 - [x]  Listar afiliados por evento
@@ -78,6 +78,54 @@ from decouple import config
 sympla = Sympla(token=config("TOKEN"))
 
 event = sympla.events(event_id=config("EVENT_ID"))
+```
+
+# Listar pedidos por evento
+
+Retorna os pedidos de um determinado evento.
+
+Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/getListOrders
+
+```python
+from pysympla import Sympla
+from decouple import config
+
+
+sympla = Sympla(token=config("TOKEN"))
+
+event = sympla.orders(event_id=config("EVENT_ID"))
+```
+
+# Listar pedido por identificador
+
+Retorna o pedido correspondente ao identificador informado.
+
+Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/getOneOrder
+
+```python
+from pysympla import Sympla
+from decouple import config
+
+
+sympla = Sympla(token=config("TOKEN"))
+
+event = sympla.orders(event_id=config("EVENT_ID"), order_id=config("ORDER_ID"))
+```
+
+# Listar participantes por pedido
+
+Retorna o(s) participante(s) contido(s) em um determinado pedido.
+
+Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/getAllParticipantsForOrder
+
+```python
+from pysympla import Sympla
+from decouple import config
+
+
+sympla = Sympla(token=config("TOKEN"))
+
+event = sympla.orders(event_id=config("EVENT_ID"), order_id=config("ORDER_ID"), see_participants=True)
 ```
 
 # Listar afiliados por evento
