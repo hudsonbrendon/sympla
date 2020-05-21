@@ -93,7 +93,7 @@ from decouple import config
 
 sympla = Sympla(token=config("TOKEN"))
 
-event = sympla.orders(event_id=config("EVENT_ID"))
+orders = sympla.orders(event_id=config("EVENT_ID"))
 ```
 
 # Listar pedido por identificador
@@ -109,7 +109,7 @@ from decouple import config
 
 sympla = Sympla(token=config("TOKEN"))
 
-event = sympla.orders(event_id=config("EVENT_ID"), order_id=config("ORDER_ID"))
+order = sympla.orders(event_id=config("EVENT_ID"), order_id=config("ORDER_ID"))
 ```
 
 # Listar participantes por pedido
@@ -125,7 +125,7 @@ from decouple import config
 
 sympla = Sympla(token=config("TOKEN"))
 
-event = sympla.orders(event_id=config("EVENT_ID"), order_id=config("ORDER_ID"), see_participants=True)
+participants = sympla.orders(event_id=config("EVENT_ID"), order_id=config("ORDER_ID"), see_participants=True)
 ```
 
 # Listar afiliados por evento
@@ -141,7 +141,7 @@ from decouple import config
 
 sympla = Sympla(token=config("TOKEN"))
 
-event = sympla.affiliates(event_id=config("EVENT_ID"))
+affiliates = sympla.affiliates(event_id=config("EVENT_ID"))
 ```
 
 # Contribua
