@@ -122,7 +122,7 @@ class TestSympla(unittest.TestCase):
         }
         requests_mock.get(url=url, json=json)
 
-        orders = self.sympla.orders(event_id=856842)
+        orders = self.sympla.orders_by_event(event_id=856842)
         self.assertEqual(orders, json)
 
     @requests_mock.Mocker()
@@ -158,44 +158,8 @@ class TestSympla(unittest.TestCase):
         }
         requests_mock.get(url=url, json=json)
 
-        orders = self.sympla.orders(event_id=856842, order_id="Q080KEE")
-        self.assertEqual(orders, json)
-
-    @requests_mock.Mocker()
-    def test_event_order_by_identifier(self, requests_mock):
-        url = "https://api.sympla.com.br/public/v3/events/856842/orders/Q080KEE"
-        json = {
-            "data": {
-                "id": "Q080KEE",
-                "event_id": 10203040,
-                "order_date": "2018-10-21 10:12:23",
-                "order_status": "A",
-                "updated_date": "2018-10-10 23:34:21",
-                "discount_code": "10,00% - desconto10",
-                "transaction_type": "CREDIT_CARD",
-                "order_total_sale_price": 23.34,
-                "buyer_first_name": "Joaquim",
-                "buyer_last_name": "Lopes",
-                "buyer_email": "meuemail@sympla.com.br",
-                "invoice_info": {
-                    "doc_type": "CPF",
-                    "doc_number": "142.536.789-55",
-                    "client_name": "Joaquim",
-                    "address_zip_code": "31112-000",
-                    "address_street": "Rua Fernandes Tourinho",
-                    "address_street_number": "147",
-                    "address_street2": "10º Andar",
-                    "address_neighborhood": "Funcionários",
-                    "address_city": "Belo Horizonte",
-                    "address_state": "MG",
-                    "mei": False
-                }
-            }
-        }
-        requests_mock.get(url=url, json=json)
-
-        orders = self.sympla.orders(event_id=856842, order_id="Q080KEE")
-        self.assertEqual(orders, json)
+        order = self.sympla.order_by_identifier(event_id=856842, order_id="Q080KEE")
+        self.assertEqual(order, json)
 
     @requests_mock.Mocker()
     def test_participants_by_order(self, requests_mock):
@@ -241,8 +205,8 @@ class TestSympla(unittest.TestCase):
         }
         requests_mock.get(url=url, json=json)
 
-        orders = self.sympla.orders(event_id=856842, order_id="Q080KEE", see_participants=True)
-        self.assertEqual(orders, json)
+        participants = self.sympla.participants_by_order(event_id=856842, order_id="Q080KEE")
+        self.assertEqual(participants, json)
 
     @requests_mock.Mocker()
     def test_populated_affiliates_event(self, request_mock):

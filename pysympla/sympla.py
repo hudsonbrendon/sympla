@@ -62,11 +62,9 @@ class Sympla(object):
         request = self._request(method="get", path=path, params=params)
         return request
 
-    def orders(
+    def orders_by_event(
         self,
         event_id: int,
-        order_id: str = None,
-        see_participants: bool = False,
         status: bool = False,
         page_size: int = 100,
         page: int = 1,
@@ -75,15 +73,11 @@ class Sympla(object):
         fields: str = None,
     ):
         """
-        Esta API de pedidos proporciona informações de compras (ou inscrições, caso o evento seja gratuito)
-        como dados de ingressos, participantes e pagamento. Um pedido pode conter mais de um ingresso e um
-        ingresso está sempre associado a um único participante.
+        Retorna os pedidos de um determinado evento.
 
-        Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#tag/Pedidos
+        Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#operation/getListOrders
 
         :param event_id: id do evento
-        :param order_id: id do pedido
-        :param see_participants: se True, retorna o(s) participante(s) contido(s) em um determinado pedido.
 
         :param status: Retorna todos os pedidos com qualquer status.
                         True: Retorna os pedidos de todos os status;
@@ -99,14 +93,71 @@ class Sympla(object):
 
         path: str = f"events/{event_id}/orders"
 
-        if order_id is not None:
-            path = f"{path}/{order_id}"
-
-            if see_participants is True:
-                path = f"{path}/participants"
-
         params = {
             "status": status,
+            "page_size": page_size,
+            "page": page,
+            "field_sort": field_sort,
+            "sort": sort,
+            "fields": fields,
+        }
+
+        request = self._request(method="get", path=path, params=params)
+
+        return request
+
+    def order_by_identifier(self, event_id: int, order_id: str, fields: str = None):
+        """
+        Retorna o pedido correspondente ao identificador informado.
+
+        Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#operation/getOneOrder
+
+        :param event_id: id do evento
+        :param order_id: id do pedido
+
+        :param fields: Deve ser utilizado para retornar apenas os atributos indicados do objeto.
+                        Os atributos indicados devem ser separados por ",".
+        """
+
+        path: str = f"events/{event_id}/orders/{order_id}"
+
+        params = {
+            "fields": fields
+        }
+
+        request = self._request(method="get", path=path, params=params)
+
+        return request
+
+    def participants_by_order(
+        self,
+        event_id: int,
+        order_id: str,
+        page_size: int = 100,
+        page: int = 1,
+        field_sort: str = None,
+        sort: str = "ASC",
+        fields: str = None
+    ):
+        """
+        Retorna o(s) participante(s) contido(s) em um determinado pedido.
+
+        Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#operation/getAllParticipantsForOrder
+
+        :param event_id: id do evento
+        :param order_id: id do pedido
+
+        :param page_size: Especifica quantos registros por página o usuário deseja. Mínimo 1 e maxímo 200.
+        :param page: Número da página dos resultados.
+        :param field_sort: Permite que os resultados sejam ordenados.
+        :param sort: Ordena por 'ASC' ou 'DESC'
+        :param fields: Deve ser utilizado para retornar apenas os atributos indicados do objeto.
+                        Os atributos indicados devem ser separados por ",".
+        """
+
+        path: str = f"events/{event_id}/orders/{order_id}/participants"
+
+        params = {
             "page_size": page_size,
             "page": page,
             "field_sort": field_sort,
