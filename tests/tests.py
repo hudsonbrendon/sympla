@@ -209,6 +209,181 @@ class TestSympla(unittest.TestCase):
         self.assertEqual(participants, json)
 
     @requests_mock.Mocker()
+    def test_participants_by_event(self, requests_mock):
+        url = "https://api.sympla.com.br/public/v3/events/856842/participants"
+        json = {
+            "data": [
+                {
+                    "id": 856842,
+                    "order_id": "BC1BA1",
+                    "first_name": "Joaquim",
+                    "last_name": "Lopes",
+                    "email": "meuemail@sympla.com.br",
+                    "ticket_number": "QHWA-1Q-3G0J",
+                    "ticket_num_qr_code": "QHWA1Q3G0J",
+                    "ticket_name": "VIP",
+                    "pdv_user": "meuemail@sympla.com.br",
+                    "ticket_sale_price": 123.5,
+                    "checkin": {
+                        "id": 1,
+                        "check_in": True,
+                        "check_in_date": "2018-09-10T10:21:10-03:00"
+                    },
+                    "custom_form": {
+                        "id": 1,
+                        "name": "CPF",
+                        "value": "142.536.789-55"
+                    }
+                }
+            ],
+            "sort": {
+                "field_sort": "id",
+                "sort": "ASC"
+            },
+            "pagination": {
+                "has_next": True,
+                "has_prev": False,
+                "quantity": 10,
+                "offset": 1,
+                "page": 1,
+                "page_size": 100,
+                "total_page": 2
+            }
+        }
+        requests_mock.get(url=url, json=json)
+
+        participants = self.sympla.participants_by_event(event_id=856842)
+        self.assertEqual(participants, json)
+
+    @requests_mock.Mocker()
+    def test_participant_by_ticket_id(self, requests_mock):
+        url = "https://api.sympla.com.br/public/v3/events/856842/participants/102345"
+        json = {
+            "data": {
+                "id": 102345,
+                "order_id": "BC1BA1",
+                "first_name": "Joaquim",
+                "last_name": "Lopes",
+                "email": "meuemail@sympla.com.br",
+                "ticket_number": "QHWA-1Q-3G0J",
+                "ticket_num_qr_code": "QHWA1Q3G0J",
+                "ticket_name": "VIP",
+                "pdv_user": "meuemail@sympla.com.br",
+                "ticket_sale_price": 123.5,
+                "checkin": {
+                    "id": 1,
+                    "check_in": True,
+                    "check_in_date": "2018-09-10T10:21:10-03:00"
+                },
+                "custom_form": {
+                    "id": 1,
+                    "name": "CPF",
+                    "value": "142.536.789-55"
+                }
+            }
+        }
+        requests_mock.get(url=url, json=json)
+
+        participant = self.sympla.participant_by_ticket_id(event_id=856842, participant_id=102345)
+        self.assertEqual(participant, json)
+
+    @requests_mock.Mocker()
+    def test_participant_by_ticket_number(self, request_mock):
+        url = "https://api.sympla.com.br/public/v3/events/856842/participants/ticketNumber/QHWA-1Q-3G0J"
+        json = {
+            "data": {
+                "id": 102345,
+                "order_id": "BC1BA1",
+                "first_name": "Joaquim",
+                "last_name": "Lopes",
+                "email": "meuemail@sympla.com.br",
+                "ticket_number": "QHWA-1Q-3G0J",
+                "ticket_num_qr_code": "QHWA1Q3G0J",
+                "ticket_name": "VIP",
+                "pdv_user": "meuemail@sympla.com.br",
+                "ticket_sale_price": 123.5,
+                "checkin": {
+                    "id": 1,
+                    "check_in": True,
+                    "check_in_date": "2018-09-10T10:21:10-03:00"
+                },
+                "custom_form": {
+                    "id": 1,
+                    "name": "CPF",
+                    "value": "142.536.789-55"
+                }
+            }
+        }
+        request_mock.get(url=url, json=json)
+
+        participant = self.sympla.participant_by_ticket_number(event_id=856842, ticket_number="QHWA-1Q-3G0J")
+        self.assertEqual(participant, json)
+
+    @requests_mock.Mocker()
+    def test_checkin_by_ticket_id(self, request_mock):
+        url = "https://api.sympla.com.br/public/v3/events/856842/participants/102345/checkIn"
+        json = {
+            "data": {
+                "id": 102345,
+                "order_id": "BC1BA1",
+                "first_name": "Joaquim",
+                "last_name": "Lopes",
+                "email": "meuemail@sympla.com.br",
+                "ticket_number": "QHWA-1Q-3G0J",
+                "ticket_num_qr_code": "QHWA1Q3G0J",
+                "ticket_name": "VIP",
+                "pdv_user": "meuemail@sympla.com.br",
+                "ticket_sale_price": 123.5,
+                "checkin": {
+                    "id": 1,
+                    "check_in": True,
+                    "check_in_date": "2018-09-10T10:21:10-03:00"
+                },
+                "custom_form": {
+                    "id": 1,
+                    "name": "CPF",
+                    "value": "142.536.789-55"
+                }
+            }
+        }
+        request_mock.post(url=url, json=json)
+
+        participant = self.sympla.checkin_by_ticket_id(event_id=856842, participant_id=102345)
+        self.assertEqual(participant, json)
+
+    @requests_mock.Mocker()
+    def test_checkin_by_ticket_number(self, request_mock):
+        url = "https://api.sympla.com.br/public/v3/events/856842/participants/ticketNumber/QHWA-1Q-3G0J/checkIn"
+        json = {
+            "data": {
+                "id": 102345,
+                "order_id": "BC1BA1",
+                "first_name": "Joaquim",
+                "last_name": "Lopes",
+                "email": "meuemail@sympla.com.br",
+                "ticket_number": "QHWA-1Q-3G0J",
+                "ticket_num_qr_code": "QHWA1Q3G0J",
+                "ticket_name": "VIP",
+                "pdv_user": "meuemail@sympla.com.br",
+                "ticket_sale_price": 123.5,
+                "checkin": {
+                    "id": 1,
+                    "check_in": True,
+                    "check_in_date": "2018-09-10T10:21:10-03:00"
+                },
+                "custom_form": {
+                    "id": 1,
+                    "name": "CPF",
+                    "value": "142.536.789-55"
+                }
+            }
+        }
+        request_mock.post(url=url, json=json)
+
+        participant = self.sympla.checkin_by_ticket_number(event_id=856842, ticket_number="QHWA-1Q-3G0J")
+        self.assertEqual(participant, json)
+
+    @requests_mock.Mocker()
     def test_populated_affiliates_event(self, request_mock):
         url = "https://api.sympla.com.br/public/v3/events/133207/affiliates"
         json = {

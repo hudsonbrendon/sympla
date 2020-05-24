@@ -14,8 +14,11 @@ A plataforma online de eventos líder no Brasil. Venda de ingressos, promoção 
 - [x]  Listar pedidos por evento
 - [x]  Listar pedidos por identificador
 - [x]  Listar participantes por pedido
-- [ ]  Listar participantes por evento
-- [ ]  Listar participante por número de ingresso
+- [x]  Listar participantes por evento
+- [x]  Listar participante por id do ingresso
+- [x]  Listar participante por número de ingresso
+- [x]  Check-in por id do ingresso
+- [x]  Check-in por número do ingresso
 - [x]  Listar afiliados por evento
 
 # Instalação
@@ -126,6 +129,86 @@ from decouple import config
 sympla = Sympla(token=config("TOKEN"))
 
 participants = sympla.participants_by_order(event_id=config("EVENT_ID"), order_id=config("ORDER_ID"))
+```
+
+# Listar participantes por evento
+
+Retorna os participantes de um determinado evento.
+
+Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#tag/Participantes
+
+```python
+from pysympla import Sympla
+from decouple import config
+
+
+sympla = Sympla(token=config("TOKEN"))
+
+participants = sympla.participants_by_event(event_id=config("EVENT_ID"))
+```
+
+# Listar participante por id do ingresso
+
+Retorna o participante correspondente ao ingresso informado.
+
+Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/getOneParticipant
+
+```python
+from pysympla import Sympla
+from decouple import config
+
+
+sympla = Sympla(token=config("TOKEN"))
+
+participants = sympla.participant_by_ticket_id(event_id=config("EVENT_ID"), participant_id=config("PARTICIPANT_ID"))
+```
+
+# Listar participante por número de ingresso
+
+Retorna o participante correspondente ao ingresso informado.
+
+Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/getOneParticipantByTicketNumber
+
+```python
+from pysympla import Sympla
+from decouple import config
+
+
+sympla = Sympla(token=config("TOKEN"))
+
+participants = sympla.participant_by_ticket_number(event_id=config("EVENT_ID"), ticket_number=config("TICKET_NUMBER"))
+```
+
+# Check-in por id do ingresso
+
+Realiza o check-in de um participante por id do ingresso.
+
+Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/checkInByParticipantId
+
+```python
+from pysympla import Sympla
+from decouple import config
+
+
+sympla = Sympla(token=config("TOKEN"))
+
+participant = sympla.checkin_by_ticket_id(event_id=config("EVENT_ID"), participant_id=config("PARTICIPANT_ID"))
+```
+
+# Check-in por número do ingresso
+
+Realiza o check-in de um participante por número do ingresso.
+
+Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/checkInByTicketNumber
+
+```python
+from pysympla import Sympla
+from decouple import config
+
+
+sympla = Sympla(token=config("TOKEN"))
+
+participant = sympla.checkin_by_ticket_number(event_id=config("EVENT_ID"), ticket_number=config("TICKET_NUMBER"))
 ```
 
 # Listar afiliados por evento
