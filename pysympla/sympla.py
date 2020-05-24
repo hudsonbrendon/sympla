@@ -77,7 +77,7 @@ class Sympla(object):
 
         Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#operation/getListOrders
 
-        :param event_id: id do evento
+        :param event_id: Identificador único do evento
 
         :param status: Retorna todos os pedidos com qualquer status.
                         True: Retorna os pedidos de todos os status;
@@ -112,7 +112,7 @@ class Sympla(object):
 
         Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#operation/getOneOrder
 
-        :param event_id: id do evento
+        :param event_id: Identificador único do evento
         :param order_id: id do pedido
 
         :param fields: Deve ser utilizado para retornar apenas os atributos indicados do objeto.
@@ -144,8 +144,8 @@ class Sympla(object):
 
         Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#operation/getAllParticipantsForOrder
 
-        :param event_id: id do evento
-        :param order_id: id do pedido
+        :param event_id: Identificador único do evento
+        :param order_id: Identificador único do pedido
 
         :param page_size: Especifica quantos registros por página o usuário deseja. Mínimo 1 e maxímo 200.
         :param page: Número da página dos resultados.
@@ -169,13 +169,132 @@ class Sympla(object):
 
         return request
 
+    def participants_by_event(
+        self,
+        event_id: int,
+        ticket_number: str = None,
+        page_size: int = 100,
+        page: int = 1,
+        field_sort: str = None,
+        sort: str = "ASC",
+        fields: str = None
+    ):
+        """
+        Retorna os participantes de um determinado evento.
+
+        Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#operation/getAllParticipants
+
+        :param event_id: Identificador único do evento
+
+        :param ticket_number: Código escrito no ingresso.
+        :param page_size: Especifica quantos registros por página o usuário deseja. Mínimo 1 e maxímo 200.
+        :param page: Número da página dos resultados.
+        :param field_sort: Permite que os resultados sejam ordenados.
+        :param sort: Ordena por 'ASC' ou 'DESC'
+        :param fields: Deve ser utilizado para retornar apenas os atributos indicados do objeto.
+                        Os atributos indicados devem ser separados por ",".
+        """
+
+        path: str = f"events/{event_id}/participants"
+
+        params = {
+            "ticket_number": ticket_number,
+            "page_size": page_size,
+            "page": page,
+            "field_sort": field_sort,
+            "sort": sort,
+            "fields": fields,
+        }
+
+        request = self._request(method="get", path=path, params=params)
+
+        return request
+
+    def participant_by_ticket_id(self, event_id: int, participant_id: int, fields: str = None):
+        """
+        Retorna o participante correspondente ao ingresso informado.
+
+        Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#operation/getOneParticipant
+
+        :param event_id: Identificador único do evento
+        :param participant_id: Identificador único do ingresso
+
+        :param fields: Deve ser utilizado para retornar apenas os atributos indicados do objeto.
+                        Os atributos indicados devem ser separados por ",".
+        """
+
+        path: str = f"events/{event_id}/participants/{participant_id}"
+
+        params = {
+            "fields": fields
+        }
+
+        request = self._request(method="get", path=path, params=params)
+
+        return request
+
+    def participant_by_ticket_number(self, event_id: int, ticket_number: str, fields: str = None):
+        """
+        Retorna o participante correspondente ao ingresso informado.
+
+        Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#operation/getOneParticipantByTicketNumber
+
+        :param event_id: Identificador único do evento
+        :param ticket_number: Número do ingresso
+
+        :param fields: Deve ser utilizado para retornar apenas os atributos indicados do objeto.
+                        Os atributos indicados devem ser separados por ",".
+        """
+
+        path: str = f"events/{event_id}/participants/ticketNumber/{ticket_number}"
+
+        params = {
+            "fields": fields
+        }
+
+        request = self._request(method="get", path=path, params=params)
+
+        return request
+
+    def checkin_by_ticket_id(self, event_id: int, participant_id: int):
+        """
+        Realiza o check-in de um participante por id do ingresso.
+
+        Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#operation/checkInByParticipantId
+
+        :param event_id: Identificador único do evento
+        :param participant_id: Identificador único do ingresso
+        """
+
+        path: str = f"events/{event_id}/participants/{participant_id}/checkIn"
+
+        request = self._request(method="post", path=path)
+
+        return request
+
+    def checkin_by_ticket_number(self, event_id: int, ticket_number: str):
+        """
+        Realiza o check-in de um participante por número do ingresso.
+
+        Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#operation/checkInByTicketNumber
+
+        :param event_id: Identificador único do evento
+        :param ticket_number: Número do ingresso
+        """
+
+        path: str = f"events/{event_id}/participants/ticketNumber/{ticket_number}/checkIn"
+
+        request = self._request(method="post", path=path)
+
+        return request
+
     def affiliates(self, event_id: int):
         """
         Esta API fornece acesso às informações relativas ao programa de afiliados e seus respectivos afiliados.
 
         Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#tag/Afiliados
 
-        :param event_id: id do evento
+        :param event_id: Identificador único do evento
         """
 
         path: str = f"events/{event_id}/affiliates"
