@@ -1,13 +1,12 @@
 import unittest
-import requests_mock
 
+import requests_mock
 from pysympla import Sympla
-from decouple import config
 
 
 class TestSympla(unittest.TestCase):
     def setUp(self):
-        self.sympla = Sympla(token=config("TOKEN"))
+        self.sympla = Sympla(token="token")
 
     def test_get_url(self):
         self.assertEqual(self.sympla._get_url("test"), f"{self.sympla._URL}test")
@@ -102,14 +101,11 @@ class TestSympla(unittest.TestCase):
                         "address_neighborhood": "Funcionários",
                         "address_city": "Belo Horizonte",
                         "address_state": "MG",
-                        "mei": False
-                    }
+                        "mei": False,
+                    },
                 }
             ],
-            "sort": {
-                "field_sort": "id",
-                "sort": "ASC"
-            },
+            "sort": {"field_sort": "id", "sort": "ASC"},
             "pagination": {
                 "has_next": True,
                 "has_prev": False,
@@ -117,8 +113,8 @@ class TestSympla(unittest.TestCase):
                 "offset": 1,
                 "page": 1,
                 "page_size": 100,
-                "total_page": 2
-            }
+                "total_page": 2,
+            },
         }
         requests_mock.get(url=url, json=json)
 
@@ -152,8 +148,8 @@ class TestSympla(unittest.TestCase):
                     "address_neighborhood": "Funcionários",
                     "address_city": "Belo Horizonte",
                     "address_state": "MG",
-                    "mei": False
-                }
+                    "mei": False,
+                },
             }
         }
         requests_mock.get(url=url, json=json)
@@ -180,19 +176,12 @@ class TestSympla(unittest.TestCase):
                     "checkin": {
                         "id": 1,
                         "check_in": True,
-                        "check_in_date": "2018-09-10T10:21:10-03:00"
+                        "check_in_date": "2018-09-10T10:21:10-03:00",
                     },
-                    "custom_form": {
-                        "id": 1,
-                        "name": "CPF",
-                        "value": "142.536.789-55"
-                    }
+                    "custom_form": {"id": 1, "name": "CPF", "value": "142.536.789-55"},
                 }
             ],
-            "sort": {
-                "field_sort": "id",
-                "sort": "ASC"
-            },
+            "sort": {"field_sort": "id", "sort": "ASC"},
             "pagination": {
                 "has_next": True,
                 "has_prev": False,
@@ -200,12 +189,14 @@ class TestSympla(unittest.TestCase):
                 "offset": 1,
                 "page": 1,
                 "page_size": 100,
-                "total_page": 2
-            }
+                "total_page": 2,
+            },
         }
         requests_mock.get(url=url, json=json)
 
-        participants = self.sympla.participants_by_order(event_id=856842, order_id="Q080KEE")
+        participants = self.sympla.participants_by_order(
+            event_id=856842, order_id="Q080KEE"
+        )
         self.assertEqual(participants, json)
 
     @requests_mock.Mocker()
@@ -227,19 +218,12 @@ class TestSympla(unittest.TestCase):
                     "checkin": {
                         "id": 1,
                         "check_in": True,
-                        "check_in_date": "2018-09-10T10:21:10-03:00"
+                        "check_in_date": "2018-09-10T10:21:10-03:00",
                     },
-                    "custom_form": {
-                        "id": 1,
-                        "name": "CPF",
-                        "value": "142.536.789-55"
-                    }
+                    "custom_form": {"id": 1, "name": "CPF", "value": "142.536.789-55"},
                 }
             ],
-            "sort": {
-                "field_sort": "id",
-                "sort": "ASC"
-            },
+            "sort": {"field_sort": "id", "sort": "ASC"},
             "pagination": {
                 "has_next": True,
                 "has_prev": False,
@@ -247,8 +231,8 @@ class TestSympla(unittest.TestCase):
                 "offset": 1,
                 "page": 1,
                 "page_size": 100,
-                "total_page": 2
-            }
+                "total_page": 2,
+            },
         }
         requests_mock.get(url=url, json=json)
 
@@ -273,18 +257,16 @@ class TestSympla(unittest.TestCase):
                 "checkin": {
                     "id": 1,
                     "check_in": True,
-                    "check_in_date": "2018-09-10T10:21:10-03:00"
+                    "check_in_date": "2018-09-10T10:21:10-03:00",
                 },
-                "custom_form": {
-                    "id": 1,
-                    "name": "CPF",
-                    "value": "142.536.789-55"
-                }
+                "custom_form": {"id": 1, "name": "CPF", "value": "142.536.789-55"},
             }
         }
         requests_mock.get(url=url, json=json)
 
-        participant = self.sympla.participant_by_ticket_id(event_id=856842, participant_id=102345)
+        participant = self.sympla.participant_by_ticket_id(
+            event_id=856842, participant_id=102345
+        )
         self.assertEqual(participant, json)
 
     @requests_mock.Mocker()
@@ -305,18 +287,16 @@ class TestSympla(unittest.TestCase):
                 "checkin": {
                     "id": 1,
                     "check_in": True,
-                    "check_in_date": "2018-09-10T10:21:10-03:00"
+                    "check_in_date": "2018-09-10T10:21:10-03:00",
                 },
-                "custom_form": {
-                    "id": 1,
-                    "name": "CPF",
-                    "value": "142.536.789-55"
-                }
+                "custom_form": {"id": 1, "name": "CPF", "value": "142.536.789-55"},
             }
         }
         request_mock.get(url=url, json=json)
 
-        participant = self.sympla.participant_by_ticket_number(event_id=856842, ticket_number="QHWA-1Q-3G0J")
+        participant = self.sympla.participant_by_ticket_number(
+            event_id=856842, ticket_number="QHWA-1Q-3G0J"
+        )
         self.assertEqual(participant, json)
 
     @requests_mock.Mocker()
@@ -337,18 +317,16 @@ class TestSympla(unittest.TestCase):
                 "checkin": {
                     "id": 1,
                     "check_in": True,
-                    "check_in_date": "2018-09-10T10:21:10-03:00"
+                    "check_in_date": "2018-09-10T10:21:10-03:00",
                 },
-                "custom_form": {
-                    "id": 1,
-                    "name": "CPF",
-                    "value": "142.536.789-55"
-                }
+                "custom_form": {"id": 1, "name": "CPF", "value": "142.536.789-55"},
             }
         }
         request_mock.post(url=url, json=json)
 
-        participant = self.sympla.checkin_by_ticket_id(event_id=856842, participant_id=102345)
+        participant = self.sympla.checkin_by_ticket_id(
+            event_id=856842, participant_id=102345
+        )
         self.assertEqual(participant, json)
 
     @requests_mock.Mocker()
@@ -369,18 +347,16 @@ class TestSympla(unittest.TestCase):
                 "checkin": {
                     "id": 1,
                     "check_in": True,
-                    "check_in_date": "2018-09-10T10:21:10-03:00"
+                    "check_in_date": "2018-09-10T10:21:10-03:00",
                 },
-                "custom_form": {
-                    "id": 1,
-                    "name": "CPF",
-                    "value": "142.536.789-55"
-                }
+                "custom_form": {"id": 1, "name": "CPF", "value": "142.536.789-55"},
             }
         }
         request_mock.post(url=url, json=json)
 
-        participant = self.sympla.checkin_by_ticket_number(event_id=856842, ticket_number="QHWA-1Q-3G0J")
+        participant = self.sympla.checkin_by_ticket_number(
+            event_id=856842, ticket_number="QHWA-1Q-3G0J"
+        )
         self.assertEqual(participant, json)
 
     @requests_mock.Mocker()
