@@ -15,7 +15,7 @@ class Sympla(object):
     def headers(self) -> dict:
         return {"S_TOKEN": self.__token}
 
-    def _request(self, method: str, path: str, params: dict = None, **kwargs):
+    def _request(self, method: str, path: str, params: dict = None, **kwargs) -> dict:
         request = requests.request(
             method=method,
             url=self._get_url(path),
@@ -36,7 +36,7 @@ class Sympla(object):
         field_sort: str = None,
         sort: str = "ASC",
         fields: str = None,
-    ):
+    ) -> dict:
         """
         Esta API fornece acesso às informações de eventos criados na plataforma Sympla, exclusivamente aqueles vinculados ao usuário proprietário do token.
 
@@ -71,7 +71,7 @@ class Sympla(object):
         field_sort: str = None,
         sort: str = "ASC",
         fields: str = None,
-    ):
+    ) -> dict:
         """
         Retorna os pedidos de um determinado evento.
 
@@ -106,7 +106,9 @@ class Sympla(object):
 
         return request
 
-    def order_by_identifier(self, event_id: int, order_id: str, fields: str = None):
+    def order_by_identifier(
+        self, event_id: int, order_id: str, fields: str = None
+    ) -> dict:
         """
         Retorna o pedido correspondente ao identificador informado.
 
@@ -121,9 +123,7 @@ class Sympla(object):
 
         path: str = f"events/{event_id}/orders/{order_id}"
 
-        params = {
-            "fields": fields
-        }
+        params = {"fields": fields}
 
         request = self._request(method="get", path=path, params=params)
 
@@ -137,8 +137,8 @@ class Sympla(object):
         page: int = 1,
         field_sort: str = None,
         sort: str = "ASC",
-        fields: str = None
-    ):
+        fields: str = None,
+    ) -> dict:
         """
         Retorna o(s) participante(s) contido(s) em um determinado pedido.
 
@@ -177,8 +177,8 @@ class Sympla(object):
         page: int = 1,
         field_sort: str = None,
         sort: str = "ASC",
-        fields: str = None
-    ):
+        fields: str = None,
+    ) -> dict:
         """
         Retorna os participantes de um determinado evento.
 
@@ -210,7 +210,9 @@ class Sympla(object):
 
         return request
 
-    def participant_by_ticket_id(self, event_id: int, participant_id: int, fields: str = None):
+    def participant_by_ticket_id(
+        self, event_id: int, participant_id: int, fields: str = None
+    ) -> dict:
         """
         Retorna o participante correspondente ao ingresso informado.
 
@@ -225,15 +227,15 @@ class Sympla(object):
 
         path: str = f"events/{event_id}/participants/{participant_id}"
 
-        params = {
-            "fields": fields
-        }
+        params = {"fields": fields}
 
         request = self._request(method="get", path=path, params=params)
 
         return request
 
-    def participant_by_ticket_number(self, event_id: int, ticket_number: str, fields: str = None):
+    def participant_by_ticket_number(
+        self, event_id: int, ticket_number: str, fields: str = None
+    ) -> dict:
         """
         Retorna o participante correspondente ao ingresso informado.
 
@@ -248,15 +250,13 @@ class Sympla(object):
 
         path: str = f"events/{event_id}/participants/ticketNumber/{ticket_number}"
 
-        params = {
-            "fields": fields
-        }
+        params = {"fields": fields}
 
         request = self._request(method="get", path=path, params=params)
 
         return request
 
-    def checkin_by_ticket_id(self, event_id: int, participant_id: int):
+    def checkin_by_ticket_id(self, event_id: int, participant_id: int) -> dict:
         """
         Realiza o check-in de um participante por id do ingresso.
 
@@ -272,7 +272,7 @@ class Sympla(object):
 
         return request
 
-    def checkin_by_ticket_number(self, event_id: int, ticket_number: str):
+    def checkin_by_ticket_number(self, event_id: int, ticket_number: str) -> dict:
         """
         Realiza o check-in de um participante por número do ingresso.
 
@@ -282,13 +282,15 @@ class Sympla(object):
         :param ticket_number: Número do ingresso
         """
 
-        path: str = f"events/{event_id}/participants/ticketNumber/{ticket_number}/checkIn"
+        path: str = (
+            f"events/{event_id}/participants/ticketNumber/{ticket_number}/checkIn"
+        )
 
         request = self._request(method="post", path=path)
 
         return request
 
-    def affiliates(self, event_id: int):
+    def affiliates(self, event_id: int) -> dict:
         """
         Esta API fornece acesso às informações relativas ao programa de afiliados e seus respectivos afiliados.
 
