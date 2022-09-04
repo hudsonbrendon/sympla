@@ -23,7 +23,9 @@ class Sympla(object):
     def headers(self) -> dict:
         return {"S_TOKEN": self.token}
 
-    def _request(self, method: str, path: str, params: dict = None, **kwargs) -> dict:
+    def _request(
+        self, method: str, path: str, params: dict = None, **kwargs
+    ) -> dict:
         request = requests.request(
             method=method,
             url=self.full_url(path),
@@ -256,7 +258,9 @@ class Sympla(object):
                         Os atributos indicados devem ser separados por ",".
         """
 
-        path: str = f"events/{event_id}/participants/ticketNumber/{ticket_number}"
+        path: str = (
+            f"events/{event_id}/participants/ticketNumber/{ticket_number}"
+        )
 
         params = {"fields": fields}
 
@@ -280,7 +284,9 @@ class Sympla(object):
 
         return request
 
-    def checkin_by_ticket_number(self, event_id: int, ticket_number: str) -> dict:
+    def checkin_by_ticket_number(
+        self, event_id: int, ticket_number: str
+    ) -> dict:
         """
         Realiza o check-in de um participante por número do ingresso.
 
@@ -290,9 +296,7 @@ class Sympla(object):
         :param ticket_number: Número do ingresso
         """
 
-        path: str = (
-            f"events/{event_id}/participants/ticketNumber/{ticket_number}/checkIn"
-        )
+        path: str = f"events/{event_id}/participants/ticketNumber/{ticket_number}/checkIn"
 
         request = self._request(method="post", path=path)
 
