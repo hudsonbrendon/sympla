@@ -3,22 +3,30 @@ import requests
 
 class Sympla(object):
 
-    _URL = "https://api.sympla.com.br/public/v3/"
+    __URL = "https://api.sympla.com.br/public/v3/"
 
-    def __init__(self, token):
+    def __init__(self, token) -> None:
         self.__token = token
 
-    def _get_url(self, path: str) -> str:
-        return f"{self._URL}{path}"
+    @property
+    def url(self) -> str:
+        return self.__URL
+
+    @property
+    def token(self) -> str:
+        return self.__token
+
+    def full_url(self, path: str) -> str:
+        return f"{self.url}{path}"
 
     @property
     def headers(self) -> dict:
-        return {"S_TOKEN": self.__token}
+        return {"S_TOKEN": self.token}
 
     def _request(self, method: str, path: str, params: dict = None, **kwargs) -> dict:
         request = requests.request(
             method=method,
-            url=self._get_url(path),
+            url=self.full_url(path),
             headers=self.headers,
             params=params,
             **kwargs,
