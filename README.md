@@ -26,12 +26,6 @@ A plataforma online de eventos líder no Brasil. Venda de ingressos, promoção 
 ```bash
 $ pip install sympla
 ```
-ou
-
-```bash
-$ python setup.py install
-```
-
 # Modo de usar
 
 A API da Sympla é a interface pública de acesso a dados da plataforma Sympla. Através dela é possível obter informações relacionadas aos eventos criados por você, como ingressos, pedidos e participantes.
@@ -235,28 +229,31 @@ Clone o projeto repositório:
 $ git clone https://github.com/hudsonbrendon/sympla.git
 ```
 
-Certifique-se de que o [Pipenv](https://github.com/kennethreitz/pipenv) está instalado, caso contrário:
+Certifique-se de que o [Poetry](https://python-poetry.org/) está instalado, caso contrário:
 
 ```bash
-$ pip install -U pipenv
+$ pip install -U poetry
 ```
 
 Acesse o repositório e instale as dependências:
 
 ```bash
-$ make install
+$ poetry install
+```
+e
+```bash
+$ poetry shell
 ```
 
 Para executar os testes:
 
 ```bash
-$ make test
+$ pytest
 ```
 
 # Dependências
 
 - [Python 3.8+](https://www.python.org/downloads/release/python-374/)
-- [Pipenv](https://github.com/kennethreitz/pipenv)
 
 # Licença
 
