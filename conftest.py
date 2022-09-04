@@ -1,6 +1,6 @@
 import pytest
 
-from pysympla import Sympla
+from sympla import Sympla
 
 
 @pytest.fixture
