@@ -1,23 +1,30 @@
-import unittest
-
-import requests_mock
-from pysympla import Sympla
+from pysympla import Sympla, __version__
 
 
-class TestSympla(unittest.TestCase):
-    def setUp(self):
-        self.sympla = Sympla(token="token")
+def test_version():
+    assert __version__ == "0.1.1"
 
-    def test_get_url(self):
-        self.assertEqual(self.sympla._get_url("test"), f"{self.sympla._URL}test")
 
-    def test_get_url_with_id(self):
-        self.assertEqual(
-            self.sympla._get_url("test/12345"), f"{self.sympla._URL}test/12345"
-        )
+class TestSympla:
+    def test_instance(self, sympla):
+        assert isinstance(sympla, Sympla)
 
-    @requests_mock.Mocker()
-    def test_events_with_from(self, request_mock):
+    def test_url(self, sympla):
+        assert sympla.url == "https://api.sympla.com.br/public/v3/"
+
+    def test_token(self, sympla):
+        assert sympla.token == "test"
+
+    def test_full_url(self, sympla):
+        assert sympla.full_url("test") == f"{sympla.url}test"
+
+    def test_full_url_with_id(self, sympla):
+        assert sympla.full_url("test/12345") == f"{sympla.url}test/12345"
+
+    def test_headers(self, sympla):
+        assert sympla.headers == {"S_TOKEN": "test"}
+
+    def test_events_with_from(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events?from=2020-01-01&published=True&page_size=100&page=1&sort=ASC"
         json = {
             "data": [],
@@ -32,13 +39,12 @@ class TestSympla(unittest.TestCase):
             },
             "sort": {"field_sort": "start_date", "sort": "ASC"},
         }
-        request_mock.get(url=url, json=json)
+        requests_mock.get(url=url, json=json)
 
-        events = self.sympla.events(_from="2020-01-01")
-        self.assertEqual(events, json)
+        events = sympla.events(_from="2020-01-01")
+        assert events == json
 
-    @requests_mock.Mocker()
-    def test_events_with_id(self, requests_mock):
+    def test_events_with_id(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events/133207?published=True&page_size=100&page=1&sort=ASC"
         json = {
             "data": {
@@ -70,11 +76,10 @@ class TestSympla(unittest.TestCase):
         }
         requests_mock.get(url=url, json=json)
 
-        event = self.sympla.events(event_id=133207)
-        self.assertEqual(event, json)
+        event = sympla.events(event_id=133207)
+        assert event == json
 
-    @requests_mock.Mocker()
-    def test_event_orders(self, requests_mock):
+    def test_event_orders(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events/856842/orders"
         json = {
             "data": [
@@ -118,11 +123,10 @@ class TestSympla(unittest.TestCase):
         }
         requests_mock.get(url=url, json=json)
 
-        orders = self.sympla.orders_by_event(event_id=856842)
-        self.assertEqual(orders, json)
+        orders = sympla.orders_by_event(event_id=856842)
+        assert orders == json
 
-    @requests_mock.Mocker()
-    def test_event_order_by_identifier(self, requests_mock):
+    def test_event_order_by_identifier(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events/856842/orders/Q080KEE"
         json = {
             "data": {
@@ -154,11 +158,10 @@ class TestSympla(unittest.TestCase):
         }
         requests_mock.get(url=url, json=json)
 
-        order = self.sympla.order_by_identifier(event_id=856842, order_id="Q080KEE")
-        self.assertEqual(order, json)
+        order = sympla.order_by_identifier(event_id=856842, order_id="Q080KEE")
+        assert order == json
 
-    @requests_mock.Mocker()
-    def test_participants_by_order(self, requests_mock):
+    def test_participants_by_order(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events/856842/orders/Q080KEE/participants"
         json = {
             "data": [
@@ -178,7 +181,11 @@ class TestSympla(unittest.TestCase):
                         "check_in": True,
                         "check_in_date": "2018-09-10T10:21:10-03:00",
                     },
-                    "custom_form": {"id": 1, "name": "CPF", "value": "142.536.789-55"},
+                    "custom_form": {
+                        "id": 1,
+                        "name": "CPF",
+                        "value": "142.536.789-55",
+                    },
                 }
             ],
             "sort": {"field_sort": "id", "sort": "ASC"},
@@ -194,13 +201,10 @@ class TestSympla(unittest.TestCase):
         }
         requests_mock.get(url=url, json=json)
 
-        participants = self.sympla.participants_by_order(
-            event_id=856842, order_id="Q080KEE"
-        )
-        self.assertEqual(participants, json)
+        participants = sympla.participants_by_order(event_id=856842, order_id="Q080KEE")
+        assert participants == json
 
-    @requests_mock.Mocker()
-    def test_participants_by_event(self, requests_mock):
+    def test_participants_by_event(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events/856842/participants"
         json = {
             "data": [
@@ -220,7 +224,11 @@ class TestSympla(unittest.TestCase):
                         "check_in": True,
                         "check_in_date": "2018-09-10T10:21:10-03:00",
                     },
-                    "custom_form": {"id": 1, "name": "CPF", "value": "142.536.789-55"},
+                    "custom_form": {
+                        "id": 1,
+                        "name": "CPF",
+                        "value": "142.536.789-55",
+                    },
                 }
             ],
             "sort": {"field_sort": "id", "sort": "ASC"},
@@ -236,11 +244,10 @@ class TestSympla(unittest.TestCase):
         }
         requests_mock.get(url=url, json=json)
 
-        participants = self.sympla.participants_by_event(event_id=856842)
-        self.assertEqual(participants, json)
+        participants = sympla.participants_by_event(event_id=856842)
+        assert participants == json
 
-    @requests_mock.Mocker()
-    def test_participant_by_ticket_id(self, requests_mock):
+    def test_participant_by_ticket_id(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events/856842/participants/102345"
         json = {
             "data": {
@@ -259,18 +266,21 @@ class TestSympla(unittest.TestCase):
                     "check_in": True,
                     "check_in_date": "2018-09-10T10:21:10-03:00",
                 },
-                "custom_form": {"id": 1, "name": "CPF", "value": "142.536.789-55"},
+                "custom_form": {
+                    "id": 1,
+                    "name": "CPF",
+                    "value": "142.536.789-55",
+                },
             }
         }
         requests_mock.get(url=url, json=json)
 
-        participant = self.sympla.participant_by_ticket_id(
+        participant = sympla.participant_by_ticket_id(
             event_id=856842, participant_id=102345
         )
-        self.assertEqual(participant, json)
+        assert participant == json
 
-    @requests_mock.Mocker()
-    def test_participant_by_ticket_number(self, request_mock):
+    def test_participant_by_ticket_number(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events/856842/participants/ticketNumber/QHWA-1Q-3G0J"
         json = {
             "data": {
@@ -289,18 +299,21 @@ class TestSympla(unittest.TestCase):
                     "check_in": True,
                     "check_in_date": "2018-09-10T10:21:10-03:00",
                 },
-                "custom_form": {"id": 1, "name": "CPF", "value": "142.536.789-55"},
+                "custom_form": {
+                    "id": 1,
+                    "name": "CPF",
+                    "value": "142.536.789-55",
+                },
             }
         }
-        request_mock.get(url=url, json=json)
+        requests_mock.get(url=url, json=json)
 
-        participant = self.sympla.participant_by_ticket_number(
+        participant = sympla.participant_by_ticket_number(
             event_id=856842, ticket_number="QHWA-1Q-3G0J"
         )
-        self.assertEqual(participant, json)
+        assert participant == json
 
-    @requests_mock.Mocker()
-    def test_checkin_by_ticket_id(self, request_mock):
+    def test_checkin_by_ticket_id(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events/856842/participants/102345/checkIn"
         json = {
             "data": {
@@ -319,18 +332,21 @@ class TestSympla(unittest.TestCase):
                     "check_in": True,
                     "check_in_date": "2018-09-10T10:21:10-03:00",
                 },
-                "custom_form": {"id": 1, "name": "CPF", "value": "142.536.789-55"},
+                "custom_form": {
+                    "id": 1,
+                    "name": "CPF",
+                    "value": "142.536.789-55",
+                },
             }
         }
-        request_mock.post(url=url, json=json)
+        requests_mock.post(url=url, json=json)
 
-        participant = self.sympla.checkin_by_ticket_id(
+        participant = sympla.checkin_by_ticket_id(
             event_id=856842, participant_id=102345
         )
-        self.assertEqual(participant, json)
+        assert participant == json
 
-    @requests_mock.Mocker()
-    def test_checkin_by_ticket_number(self, request_mock):
+    def test_checkin_by_ticket_number(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events/856842/participants/ticketNumber/QHWA-1Q-3G0J/checkIn"
         json = {
             "data": {
@@ -349,18 +365,21 @@ class TestSympla(unittest.TestCase):
                     "check_in": True,
                     "check_in_date": "2018-09-10T10:21:10-03:00",
                 },
-                "custom_form": {"id": 1, "name": "CPF", "value": "142.536.789-55"},
+                "custom_form": {
+                    "id": 1,
+                    "name": "CPF",
+                    "value": "142.536.789-55",
+                },
             }
         }
-        request_mock.post(url=url, json=json)
+        requests_mock.post(url=url, json=json)
 
-        participant = self.sympla.checkin_by_ticket_number(
+        participant = sympla.checkin_by_ticket_number(
             event_id=856842, ticket_number="QHWA-1Q-3G0J"
         )
-        self.assertEqual(participant, json)
+        assert participant == json
 
-    @requests_mock.Mocker()
-    def test_populated_affiliates_event(self, request_mock):
+    def test_populated_affiliates_event(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events/133207/affiliates"
         json = {
             "data": [
@@ -382,23 +401,21 @@ class TestSympla(unittest.TestCase):
             ]
         }
 
-        request_mock.get(url=url, json=json)
+        requests_mock.get(url=url, json=json)
 
-        affiliates = self.sympla.affiliates(133207)
-        self.assertEqual(affiliates, json)
+        affiliates = sympla.affiliates(133207)
+        assert affiliates == json
 
-    @requests_mock.Mocker()
-    def test_empty_affiliates_event(self, request_mock):
+    def test_empty_affiliates_event(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events/133207/affiliates"
         json = {"error": True, "message": "Event dont have affiliate program."}
 
-        request_mock.get(url=url, json=json)
+        requests_mock.get(url=url, json=json)
 
-        affiliates = self.sympla.affiliates(133207)
-        self.assertEqual(affiliates, json)
+        affiliates = sympla.affiliates(133207)
+        assert affiliates == json
 
-    @requests_mock.Mocker()
-    def test_unauthorized_affiliates_event(self, request_mock):
+    def test_unauthorized_affiliates_event(self, requests_mock, sympla):
         url = "https://api.sympla.com.br/public/v3/events/555555/affiliates"
         json = {
             "error": True,
@@ -406,11 +423,7 @@ class TestSympla(unittest.TestCase):
             "message": "Token is not authorized access this event.",
         }
 
-        request_mock.get(url=url, json=json)
+        requests_mock.get(url=url, json=json)
 
-        affiliates = self.sympla.affiliates(555555)
-        self.assertEqual(affiliates, json)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        affiliates = sympla.affiliates(555555)
+        assert affiliates == json
