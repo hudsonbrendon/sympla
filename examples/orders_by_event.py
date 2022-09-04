@@ -1,6 +1,6 @@
-from pysympla import Sympla
 from decouple import config
 
+from pysympla import Sympla
 
 sympla = Sympla(token=config("TOKEN"))
 
