@@ -127,7 +127,9 @@ class TestSympla:
         assert orders == json
 
     def test_event_order_by_identifier(self, requests_mock, sympla):
-        url = "https://api.sympla.com.br/public/v3/events/856842/orders/Q080KEE"
+        url = (
+            "https://api.sympla.com.br/public/v3/events/856842/orders/Q080KEE"
+        )
         json = {
             "data": {
                 "id": "Q080KEE",
@@ -201,7 +203,9 @@ class TestSympla:
         }
         requests_mock.get(url=url, json=json)
 
-        participants = sympla.participants_by_order(event_id=856842, order_id="Q080KEE")
+        participants = sympla.participants_by_order(
+            event_id=856842, order_id="Q080KEE"
+        )
         assert participants == json
 
     def test_participants_by_event(self, requests_mock, sympla):
