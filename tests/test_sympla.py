@@ -1,8 +1,8 @@
-from pysympla import Sympla, __version__
+from sympla import Sympla, __version__
 
 
 def test_version():
-    assert __version__ == "0.1.1"
+    assert __version__ == "0.1.0"
 
 
 class TestSympla:

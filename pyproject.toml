@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "pysympla"
-version = "0.1.1"
+name = "sympla"
+version = "0.1.0"
 description = "A plataforma online de eventos líder no Brasil. Venda de ingressos, promoção e administração de eventos. Simples e segura. Organiza eventos? Sympla!"
 authors = ["Hudson Brendon <contato.hudsonbrendon@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/hudsonbrendon/pysympla"
-homepage = "https://github.com/hudsonbrendon/pysympla#readme"
+repository = "https://github.com/hudsonbrendon/sympla"
+homepage = "https://github.com/hudsonbrendon/sympla#readme"
 
 [tool.poetry.dependencies]
 python = "^3.8"

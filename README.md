@@ -1,8 +1,8 @@
-# pysympla
+# Sympla
 A plataforma online de eventos líder no Brasil. Venda de ingressos, promoção e administração de eventos. Simples e segura. Organiza eventos? Sympla!
 
-![Python package](https://github.com/hudsonbrendon/pysympla/workflows/Python%20package/badge.svg?branch=master)
-[![Github Issues](http://img.shields.io/github/issues/hudsonbrendon/pysympla.svg?style=flat)](https://github.com/hudsonbrendon/pysympla/issues?sort=updated&state=open)
+![Python package](https://github.com/hudsonbrendon/sympla/workflows/Python%20package/badge.svg?branch=master)
+[![Github Issues](http://img.shields.io/github/issues/hudsonbrendon/sympla.svg?style=flat)](https://github.com/hudsonbrendon/sympla/issues?sort=updated&state=open)
 ![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ![Sympla](https://logodownload.org/wp-content/uploads/2018/10/sympla-logo-3.png)
@@ -24,7 +24,7 @@ A plataforma online de eventos líder no Brasil. Venda de ingressos, promoção 
 # Instalação
 
 ```bash
-$ pip install pysympla
+$ pip install sympla
 ```
 ou
 
@@ -58,7 +58,7 @@ A API também permite a personalização dos resultados, possibilitando filtrar 
 Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#tag/Eventos
 
 ```python
-from pysympla import Sympla
+from sympla import Sympla
 from decouple import config
 
 
@@ -74,7 +74,7 @@ Retorna o evento correspondente ao identificador informado.
 Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/getEventId
 
 ```python
-from pysympla import Sympla
+from sympla import Sympla
 from decouple import config
 
 
@@ -90,7 +90,7 @@ Retorna os pedidos de um determinado evento.
 Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/getListOrders
 
 ```python
-from pysympla import Sympla
+from sympla import Sympla
 from decouple import config
 
 
@@ -106,7 +106,7 @@ Retorna o pedido correspondente ao identificador informado.
 Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/getOneOrder
 
 ```python
-from pysympla import Sympla
+from sympla import Sympla
 from decouple import config
 
 
@@ -122,7 +122,7 @@ Retorna o(s) participante(s) contido(s) em um determinado pedido.
 Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/getAllParticipantsForOrder
 
 ```python
-from pysympla import Sympla
+from sympla import Sympla
 from decouple import config
 
 
@@ -138,7 +138,7 @@ Retorna os participantes de um determinado evento.
 Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#tag/Participantes
 
 ```python
-from pysympla import Sympla
+from sympla import Sympla
 from decouple import config
 
 
@@ -154,7 +154,7 @@ Retorna o participante correspondente ao ingresso informado.
 Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/getOneParticipant
 
 ```python
-from pysympla import Sympla
+from sympla import Sympla
 from decouple import config
 
 
@@ -170,7 +170,7 @@ Retorna o participante correspondente ao ingresso informado.
 Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/getOneParticipantByTicketNumber
 
 ```python
-from pysympla import Sympla
+from sympla import Sympla
 from decouple import config
 
 
@@ -186,7 +186,7 @@ Realiza o check-in de um participante por id do ingresso.
 Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/checkInByParticipantId
 
 ```python
-from pysympla import Sympla
+from sympla import Sympla
 from decouple import config
 
 
@@ -202,7 +202,7 @@ Realiza o check-in de um participante por número do ingresso.
 Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#operation/checkInByTicketNumber
 
 ```python
-from pysympla import Sympla
+from sympla import Sympla
 from decouple import config
 
 
@@ -218,7 +218,7 @@ Retorna os afiliados do evento correspondente ao identificador informado.
 Saiba mais em: https://developers.sympla.com.br/api-doc/index.html#tag/Afiliados
 
 ```python
-from pysympla import Sympla
+from sympla import Sympla
 from decouple import config
 
 
@@ -232,7 +232,7 @@ affiliates = sympla.affiliates(event_id=config("EVENT_ID"))
 Clone o projeto repositório:
 
 ```bash
-$ git clone https://github.com/hudsonbrendon/pysympla.git
+$ git clone https://github.com/hudsonbrendon/sympla.git
 ```
 
 Certifique-se de que o [Pipenv](https://github.com/kennethreitz/pipenv) está instalado, caso contrário:
