@@ -31,5 +31,7 @@ jobs:
           python -m pip install poetry
       - name: Check Package
         run: poetry check
+      - name: Build package
+        run: poetry build
       - name: Publish Package
         run: poetry publish --username __token__ ${{ secrets.PYPI_SECRET_KEY }}
