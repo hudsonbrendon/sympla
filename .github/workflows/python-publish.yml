@@ -32,7 +32,5 @@ jobs:
           poetry publish --username __token__ ${{ secrets.PYPI_SECRET_KEY }}
       - name: Check Package
         run: poetry check
-      - name: Build Package
-        run: poetry build
       - name: Publish Package
-        run: poetry publish
+        run: poetry publish --build
