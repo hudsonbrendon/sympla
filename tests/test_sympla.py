@@ -2,7 +2,7 @@ from sympla import Sympla, __version__
 
 
 def test_version():
-    assert __version__ == "0.1.2"
+    assert __version__ == "0.1.3"
 
 
 class TestSympla:
