@@ -254,7 +254,7 @@ $ pytest
 
 # Dependências
 
-- [Python >= 3.8](https://www.python.org/downloads/release/python-374/)
+- [Python >= 3.8](https://www.python.org/downloads/release/python-380/)
 
 # Licença
 
