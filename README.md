@@ -1,7 +1,8 @@
 # Sympla
 A plataforma online de eventos líder no Brasil. Venda de ingressos, promoção e administração de eventos. Simples e segura. Organiza eventos? Sympla!
 
-![Python package](https://github.com/hudsonbrendon/sympla/workflows/Python%20package/badge.svg?branch=master)
+[![Python package](https://github.com/hudsonbrendon/sympla/actions/workflows/pythonpackage.yml/badge.svg)](https://github.com/hudsonbrendon/sympla/actions/workflows/pythonpackage.yml)
+[![Upload Python Package](https://github.com/hudsonbrendon/sympla/actions/workflows/python-publish.yml/badge.svg)](https://github.com/hudsonbrendon/sympla/actions/workflows/python-publish.yml)
 [![Github Issues](http://img.shields.io/github/issues/hudsonbrendon/sympla.svg?style=flat)](https://github.com/hudsonbrendon/sympla/issues?sort=updated&state=open)
 ![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)
 
@@ -253,7 +254,7 @@ $ pytest
 
 # Dependências
 
-- [Python 3.8+](https://www.python.org/downloads/release/python-374/)
+- [Python >= 3.8](https://www.python.org/downloads/release/python-380/)
 
 # Licença
 
