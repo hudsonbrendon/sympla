@@ -2,29 +2,29 @@ from sympla import Sympla, __version__
 
 
 def test_version():
-    assert __version__ == "0.1.3"
+    assert __version__ == "0.1.4"
 
 
 class TestSympla:
-    def test_instance(self, sympla):
+    def test_instance(self, sympla: Sympla) -> None:
         assert isinstance(sympla, Sympla)
 
-    def test_url(self, sympla):
+    def test_url(self, sympla: Sympla):
         assert sympla.url == "https://api.sympla.com.br/public/v3/"
 
-    def test_token(self, sympla):
+    def test_token(self, sympla: Sympla) -> None:
         assert sympla.token == "test"
 
-    def test_full_url(self, sympla):
+    def test_full_url(self, sympla: Sympla) -> None:
         assert sympla.full_url("test") == f"{sympla.url}test"
 
-    def test_full_url_with_id(self, sympla):
+    def test_full_url_with_id(self, sympla: Sympla) -> None:
         assert sympla.full_url("test/12345") == f"{sympla.url}test/12345"
 
-    def test_headers(self, sympla):
+    def test_headers(self, sympla: Sympla):
         assert sympla.headers == {"S_TOKEN": "test"}
 
-    def test_events_with_from(self, requests_mock, sympla):
+    def test_events_with_from(self, requests_mock, sympla: Sympla) -> None:
         url = "https://api.sympla.com.br/public/v3/events?from=2020-01-01&published=True&page_size=100&page=1&sort=ASC"
         json = {
             "data": [],
@@ -44,7 +44,7 @@ class TestSympla:
         events = sympla.events(_from="2020-01-01")
         assert events == json
 
-    def test_events_with_id(self, requests_mock, sympla):
+    def test_events_with_id(self, requests_mock, sympla: Sympla) -> None:
         url = "https://api.sympla.com.br/public/v3/events/133207?published=True&page_size=100&page=1&sort=ASC"
         json = {
             "data": {
@@ -79,7 +79,16 @@ class TestSympla:
         event = sympla.events(event_id=133207)
         assert event == json
 
-    def test_event_orders(self, requests_mock, sympla):
+    def test_events_with_invalid_sort(self, sympla: Sympla) -> None:
+        try:
+            sympla.events(sort="INVALID")
+        except ValueError as e:
+            assert (
+                str(e)
+                == "O valor de 'sort' deve ser 'ASC' ou 'DESC', não 'INVALID'"
+            )
+
+    def test_event_orders(self, requests_mock, sympla: Sympla) -> None:
         url = "https://api.sympla.com.br/public/v3/events/856842/orders"
         json = {
             "data": [
@@ -126,7 +135,18 @@ class TestSympla:
         orders = sympla.orders_by_event(event_id=856842)
         assert orders == json
 
-    def test_event_order_by_identifier(self, requests_mock, sympla):
+    def test_test_event_orders_with_invalid_sort(self, sympla: Sympla) -> None:
+        try:
+            sympla.orders_by_event(event_id=856842, sort="INVALID")
+        except ValueError as e:
+            assert (
+                str(e)
+                == "O valor de 'sort' deve ser 'ASC' ou 'DESC', não 'INVALID'"
+            )
+
+    def test_event_order_by_identifier(
+        self, requests_mock, sympla: Sympla
+    ) -> None:
         url = (
             "https://api.sympla.com.br/public/v3/events/856842/orders/Q080KEE"
         )
@@ -163,7 +183,9 @@ class TestSympla:
         order = sympla.order_by_identifier(event_id=856842, order_id="Q080KEE")
         assert order == json
 
-    def test_participants_by_order(self, requests_mock, sympla):
+    def test_participants_by_order(
+        self, requests_mock, sympla: Sympla
+    ) -> None:
         url = "https://api.sympla.com.br/public/v3/events/856842/orders/Q080KEE/participants"
         json = {
             "data": [
@@ -208,7 +230,22 @@ class TestSympla:
         )
         assert participants == json
 
-    def test_participants_by_event(self, requests_mock, sympla):
+    def test_participants_by_order_with_invalid_sort(
+        self, sympla: Sympla
+    ) -> None:
+        try:
+            sympla.participants_by_order(
+                event_id=856842, order_id="Q080KEE", sort="INVALID"
+            )
+        except ValueError as e:
+            assert (
+                str(e)
+                == "O valor de 'sort' deve ser 'ASC' ou 'DESC', não 'INVALID'"
+            )
+
+    def test_participants_by_event(
+        self, requests_mock, sympla: Sympla
+    ) -> None:
         url = "https://api.sympla.com.br/public/v3/events/856842/participants"
         json = {
             "data": [
@@ -251,7 +288,20 @@ class TestSympla:
         participants = sympla.participants_by_event(event_id=856842)
         assert participants == json
 
-    def test_participant_by_ticket_id(self, requests_mock, sympla):
+    def test_participants_by_event_with_invalid_sort(
+        self, sympla: Sympla
+    ) -> None:
+        try:
+            sympla.participants_by_event(event_id=856842, sort="INVALID")
+        except ValueError as e:
+            assert (
+                str(e)
+                == "O valor de 'sort' deve ser 'ASC' ou 'DESC', não 'INVALID'"
+            )
+
+    def test_participant_by_ticket_id(
+        self, requests_mock, sympla: Sympla
+    ) -> None:
         url = "https://api.sympla.com.br/public/v3/events/856842/participants/102345"
         json = {
             "data": {
@@ -284,7 +334,9 @@ class TestSympla:
         )
         assert participant == json
 
-    def test_participant_by_ticket_number(self, requests_mock, sympla):
+    def test_participant_by_ticket_number(
+        self, requests_mock, sympla: Sympla
+    ) -> None:
         url = "https://api.sympla.com.br/public/v3/events/856842/participants/ticketNumber/QHWA-1Q-3G0J"
         json = {
             "data": {
@@ -317,7 +369,7 @@ class TestSympla:
         )
         assert participant == json
 
-    def test_checkin_by_ticket_id(self, requests_mock, sympla):
+    def test_checkin_by_ticket_id(self, requests_mock, sympla: Sympla) -> None:
         url = "https://api.sympla.com.br/public/v3/events/856842/participants/102345/checkIn"
         json = {
             "data": {
@@ -350,7 +402,9 @@ class TestSympla:
         )
         assert participant == json
 
-    def test_checkin_by_ticket_number(self, requests_mock, sympla):
+    def test_checkin_by_ticket_number(
+        self, requests_mock, sympla: Sympla
+    ) -> None:
         url = "https://api.sympla.com.br/public/v3/events/856842/participants/ticketNumber/QHWA-1Q-3G0J/checkIn"
         json = {
             "data": {
@@ -383,7 +437,9 @@ class TestSympla:
         )
         assert participant == json
 
-    def test_populated_affiliates_event(self, requests_mock, sympla):
+    def test_populated_affiliates_event(
+        self, requests_mock, sympla: Sympla
+    ) -> None:
         url = "https://api.sympla.com.br/public/v3/events/133207/affiliates"
         json = {
             "data": [
@@ -410,7 +466,9 @@ class TestSympla:
         affiliates = sympla.affiliates(133207)
         assert affiliates == json
 
-    def test_empty_affiliates_event(self, requests_mock, sympla):
+    def test_empty_affiliates_event(
+        self, requests_mock, sympla: Sympla
+    ) -> None:
         url = "https://api.sympla.com.br/public/v3/events/133207/affiliates"
         json = {"error": True, "message": "Event dont have affiliate program."}
 
@@ -419,7 +477,9 @@ class TestSympla:
         affiliates = sympla.affiliates(133207)
         assert affiliates == json
 
-    def test_unauthorized_affiliates_event(self, requests_mock, sympla):
+    def test_unauthorized_affiliates_event(
+        self, requests_mock, sympla: Sympla
+    ):
         url = "https://api.sympla.com.br/public/v3/events/555555/affiliates"
         json = {
             "error": True,
