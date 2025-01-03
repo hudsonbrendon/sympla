@@ -1,7 +1,9 @@
 import requests
 
+from sympla.enums import Ordering
 
-class Sympla(object):
+
+class Sympla:
 
     __URL = "https://api.sympla.com.br/public/v3/"
 
@@ -44,7 +46,7 @@ class Sympla(object):
         page_size: int = 100,
         page: int = 1,
         field_sort: str = None,
-        sort: str = "ASC",
+        sort: Ordering = Ordering.ASC.value,
         fields: str = None,
     ) -> dict:
         """
@@ -54,6 +56,10 @@ class Sympla(object):
 
         Para saber mais, acesse: https://developers.sympla.com.br/api-doc/index.html#tag/Eventos
         """
+        if sort not in Ordering._value2member_map_:
+            raise ValueError(
+                f"O valor de 'sort' deve ser 'ASC' ou 'DESC', não '{sort}'"
+            )
 
         path = "events"
         if event_id is not None:
@@ -79,7 +85,7 @@ class Sympla(object):
         page_size: int = 100,
         page: int = 1,
         field_sort: str = None,
-        sort: str = "ASC",
+        sort: Ordering = Ordering.ASC.value,
         fields: str = None,
     ) -> dict:
         """
@@ -100,6 +106,10 @@ class Sympla(object):
         :param fields: Deve ser utilizado para retornar apenas os atributos indicados do objeto.
                         Os atributos indicados devem ser separados por ",".
         """
+        if sort not in Ordering._value2member_map_:
+            raise ValueError(
+                f"O valor de 'sort' deve ser 'ASC' ou 'DESC', não '{sort}'"
+            )
 
         path: str = f"events/{event_id}/orders"
 
@@ -146,7 +156,7 @@ class Sympla(object):
         page_size: int = 100,
         page: int = 1,
         field_sort: str = None,
-        sort: str = "ASC",
+        sort: Ordering = Ordering.ASC.value,
         fields: str = None,
     ) -> dict:
         """
@@ -164,6 +174,10 @@ class Sympla(object):
         :param fields: Deve ser utilizado para retornar apenas os atributos indicados do objeto.
                         Os atributos indicados devem ser separados por ",".
         """
+        if sort not in Ordering._value2member_map_:
+            raise ValueError(
+                f"O valor de 'sort' deve ser 'ASC' ou 'DESC', não '{sort}'"
+            )
 
         path: str = f"events/{event_id}/orders/{order_id}/participants"
 
@@ -186,7 +200,7 @@ class Sympla(object):
         page_size: int = 100,
         page: int = 1,
         field_sort: str = None,
-        sort: str = "ASC",
+        sort: Ordering = Ordering.ASC.value,
         fields: str = None,
     ) -> dict:
         """
@@ -204,6 +218,10 @@ class Sympla(object):
         :param fields: Deve ser utilizado para retornar apenas os atributos indicados do objeto.
                         Os atributos indicados devem ser separados por ",".
         """
+        if sort not in Ordering._value2member_map_:
+            raise ValueError(
+                f"O valor de 'sort' deve ser 'ASC' ou 'DESC', não '{sort}'"
+            )
 
         path: str = f"events/{event_id}/participants"
 

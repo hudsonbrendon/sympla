@@ -4,5 +4,5 @@ from sympla import Sympla
 
 
 @pytest.fixture
-def sympla():
+def sympla() -> Sympla:
     return Sympla("test")
